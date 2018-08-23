@@ -2,7 +2,7 @@ package com.kwabenaberko.cointrack.di.modules;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.kwabenaberko.cointrack.MainActivityViewModel;
+import com.kwabenaberko.cointrack.CoinListViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -17,8 +17,8 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainActivityViewModel.class)
-    abstract ViewModel mainActivityViewModel(MainActivityViewModel mainActivityViewModel);
+    @ViewModelKey(CoinListViewModel.class)
+    abstract ViewModel mainActivityViewModel(CoinListViewModel coinListViewModel);
 
 
 }

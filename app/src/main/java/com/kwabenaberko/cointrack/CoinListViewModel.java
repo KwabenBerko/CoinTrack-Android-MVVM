@@ -11,12 +11,12 @@ import javax.inject.Inject;
  * Created by Kwabena Berko on 8/22/2018.
  */
 
-public class MainActivityViewModel extends ViewModel {
+public class CoinListViewModel extends ViewModel {
     private CoinTrackRepository mCoinTrackRepository;
     private LiveData<List<Coin>> coinListLiveData;
 
     @Inject
-    public MainActivityViewModel(CoinTrackRepository coinTrackRepository){
+    public CoinListViewModel(CoinTrackRepository coinTrackRepository){
         mCoinTrackRepository = coinTrackRepository;
         coinListLiveData = mCoinTrackRepository.getCoinData();
     }

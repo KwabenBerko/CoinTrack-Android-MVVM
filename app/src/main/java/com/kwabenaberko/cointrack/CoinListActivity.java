@@ -20,11 +20,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class CoinListActivity extends AppCompatActivity {
 
     @Inject
     ViewModelFactory mFactory;
-    private MainActivityViewModel viewModel;
+    private CoinListViewModel viewModel;
     @BindView(R.id.coinsRecyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipeRefreshLayout)
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ((App) getApplication()).getAppComponent().inject(this);
-        viewModel = ViewModelProviders.of(this, mFactory).get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this, mFactory).get(CoinListViewModel.class);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));

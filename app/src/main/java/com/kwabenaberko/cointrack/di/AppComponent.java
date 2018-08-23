@@ -1,7 +1,7 @@
 package com.kwabenaberko.cointrack.di;
 
 import com.kwabenaberko.cointrack.CoinTrackIntentService;
-import com.kwabenaberko.cointrack.MainActivity;
+import com.kwabenaberko.cointrack.CoinListActivity;
 import com.kwabenaberko.cointrack.di.modules.AppModule;
 import com.kwabenaberko.cointrack.di.modules.DatabaseModule;
 import com.kwabenaberko.cointrack.di.modules.NetModule;
@@ -27,5 +27,5 @@ import dagger.Component;
 
 public interface AppComponent {
     void inject(CoinTrackIntentService coinTrackIntentService);
-    void inject(MainActivity mainActivity);
+    void inject(CoinListActivity coinListActivity);
 }
