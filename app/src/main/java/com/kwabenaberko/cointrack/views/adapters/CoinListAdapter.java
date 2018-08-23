@@ -50,14 +50,14 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
                         mContext.getString(R.string.percentage),
                         String.valueOf(coin.getPerc()))
         );
-        holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.depreciate));
+        holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.danger));
         holder.coinPrice.setText(
                 String.format(
                         mContext.getString(R.string.priceInDollars),
                         Helpers.round(coin.getPrice())
                 )
         );
-        holder.coinPrice.setTextColor(ContextCompat.getColor(mContext, R.color.appreciate));
+        holder.coinPrice.setTextColor(ContextCompat.getColor(mContext, R.color.success));
         Glide.with(mContext)
                 .load("https://raw.githubusercontent.com/KwabenBerko/cryptocurrency-icons/master/128/color/" +
                 coin.getShortName().toLowerCase() + ".png")

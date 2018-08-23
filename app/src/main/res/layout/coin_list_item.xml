@@ -24,6 +24,7 @@
 
                 <ImageView
                     android:id="@+id/coinImage"
+                    android:background="@drawable/circular_img_bg"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
 
@@ -64,7 +65,7 @@
                     android:textSize="17sp"
                     android:textColor="#676767"
                     android:gravity="end"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

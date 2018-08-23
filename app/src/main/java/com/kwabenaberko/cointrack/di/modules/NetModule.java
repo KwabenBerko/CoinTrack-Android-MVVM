@@ -1,6 +1,7 @@
 package com.kwabenaberko.cointrack.di.modules;
 
 import com.kwabenaberko.cointrack.data.network.CoinTrackApiService;
+import com.kwabenaberko.cointrack.data.network.CoinTrackRemoteDataSource;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,5 +59,11 @@ public class NetModule {
     @Singleton
     CoinTrackApiService provideApiService(Retrofit retrofit){
         return retrofit.create(CoinTrackApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    CoinTrackRemoteDataSource provideCoinTrackRemoteDataSource(CoinTrackApiService coinTrackApiService){
+        return new CoinTrackRemoteDataSource(coinTrackApiService);
     }
 }

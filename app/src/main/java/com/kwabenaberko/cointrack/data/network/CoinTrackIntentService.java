@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.kwabenaberko.cointrack.App;
 
+import javax.inject.Inject;
+
 /**
  * Created by Kwabena Berko on 8/22/2018.
  */
@@ -14,6 +16,7 @@ import com.kwabenaberko.cointrack.App;
 public class CoinTrackIntentService extends IntentService {
 
     private static final String COIN_SERVICE_TAG = CoinTrackIntentService.class.getSimpleName();
+    @Inject CoinTrackRemoteDataSource mCoinTrackRemoteDataSource;
 
     public CoinTrackIntentService() {
         super(COIN_SERVICE_TAG);
@@ -27,6 +30,7 @@ public class CoinTrackIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.d(COIN_SERVICE_TAG, "Socket Service Started.");
+        Log.d(COIN_SERVICE_TAG, "Service OnHandleIntent Called.");
+        mCoinTrackRemoteDataSource.getCoinRealTimeUpdates();
     }
 }

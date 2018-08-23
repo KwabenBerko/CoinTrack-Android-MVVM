@@ -2,21 +2,17 @@ package com.kwabenaberko.cointrack.data;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.kwabenaberko.cointrack.data.database.CoinTrackDao;
-import com.kwabenaberko.cointrack.data.network.CoinTrackApiService;
+import com.kwabenaberko.cointrack.data.network.CoinTrackIntentService;
+import com.kwabenaberko.cointrack.data.network.CoinTrackRemoteDataSource;
 import com.kwabenaberko.cointrack.models.Coin;
 
-import java.net.URISyntaxException;
 import java.util.List;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Kwabena Berko on 8/22/2018.
@@ -27,67 +23,61 @@ public class CoinTrackRepository {
 
     private Application mApplication;
     private CoinTrackDao mCoinTrackDao;
-    private CoinTrackApiService mCoinTrackApiService;
+    private CoinTrackRemoteDataSource mCoinTrackRemoteDataSource;
+    private boolean socketServiceInitialized = false;
 
-    public CoinTrackRepository(Application application, CoinTrackDao coinTrackDao, CoinTrackApiService coinTrackApiService){
+    public CoinTrackRepository(Application application, CoinTrackDao coinTrackDao, CoinTrackRemoteDataSource coinTrackRemoteDataSource){
         mApplication = application;
-        mCoinTrackApiService = coinTrackApiService;
+        mCoinTrackRemoteDataSource = coinTrackRemoteDataSource;
         mCoinTrackDao = coinTrackDao;
+
+        mCoinTrackRemoteDataSource.getCoinListData().observeForever(new Observer<List<Coin>>() {
+            @Override
+            public void onChanged(@Nullable final List<Coin> coins) {
+                if(coins != null){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCoinTrackDao.deleteAll();
+                            mCoinTrackDao.insertAll(coins.subList(0, 20));
+                            Log.d(COIN_REPO_TAG, "Data Changed.");
+                        }
+                    }).start();
+                }
+            }
+        });
+
+        mCoinTrackRemoteDataSource.getUpdatedCoinData().observeForever(new Observer<Coin>() {
+            @Override
+            public void onChanged(@Nullable final Coin coin) {
+                if(coin != null){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.v(COIN_REPO_TAG, "Received Updated Coin Data Via Websockets.");
+                            Coin existingCoin = mCoinTrackDao.findByShortName(coin.getShortName());
+                            existingCoin.setCap24hrChange(coin.getCap24hrChange());
+                            existingCoin.setLongName(coin.getLongName());
+                            existingCoin.setShortName(coin.getShortName());
+                            existingCoin.setPerc(coin.getPerc());
+                            existingCoin.setPrice(coin.getPrice());
+                            mCoinTrackDao.updateCoin(existingCoin);
+                        }
+                    }).start();
+                }
+            }
+        });
 
     }
 
     public void refreshCoinListData(){
-        mCoinTrackApiService.getFrontPageCoinData().enqueue(new Callback<List<Coin>>() {
-            @Override
-            public void onResponse(Call<List<Coin>> call, final Response<List<Coin>> response) {
-                if(response.isSuccessful()){
-                    if(response.body() != null){
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mCoinTrackDao.deleteAll();
-                                mCoinTrackDao.insertAll(response.body().subList(0, 10));
-                                Log.d(COIN_REPO_TAG, "Data Changed.");
-                            }
-                        }).start();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Coin>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void startCoinRealTimeUpdates(){
-        try {
-            Socket socket = IO.socket("https://coincap.io");
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.d(COIN_REPO_TAG, "Socket Connected.");
-                }
-            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.d(COIN_REPO_TAG, "Socket Disconnected.");
-                }
-            }).on("trades", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.d(COIN_REPO_TAG, "Trade.");
-                    Log.d(COIN_REPO_TAG, String.valueOf(args[0]));
-                }
-            });
-
-            socket.connect();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        mCoinTrackRemoteDataSource.fetchCoinData();
+        if(!socketServiceInitialized){
+            mApplication.startService(new Intent(mApplication.getApplicationContext(), CoinTrackIntentService.class));
+            socketServiceInitialized = true;
         }
-
     }
+
 
     public LiveData<List<Coin>> getCoinData(){
         return mCoinTrackDao.getAll();

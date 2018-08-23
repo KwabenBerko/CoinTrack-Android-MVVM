@@ -20,6 +20,9 @@ public interface CoinTrackDao {
     @Query("SELECT * FROM coins")
     LiveData<List<Coin>> getAll();
 
+    @Query("SELECT * FROM coins WHERE shortName = :shortName")
+    Coin findByShortName(String shortName);
+
     @Insert
     void insertAll(List<Coin> coins);
 

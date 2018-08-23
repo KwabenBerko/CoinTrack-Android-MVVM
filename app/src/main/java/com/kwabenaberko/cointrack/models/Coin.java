@@ -14,25 +14,23 @@ import com.google.gson.annotations.SerializedName;
 public class Coin {
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo
     private double cap24hrChange;
 
+    @ColumnInfo
     @SerializedName("long")
-    @ColumnInfo()
     private String longName;
 
-    private double mktcap;
+    @ColumnInfo
     private double perc;
-    private double price;
-    private boolean shapeshift;
 
-    @ColumnInfo()
+    @ColumnInfo
+    private double price;
+
+    @ColumnInfo
     @SerializedName("short")
     private String shortName;
-    private double supply;
-    private double volume;
-    private double usdVolume;
-    private double vwapData;
-    private double vwapDataBTC;
 
     public int getId() {
         return id;
@@ -58,13 +56,6 @@ public class Coin {
         this.longName = longName;
     }
 
-    public double getMktcap() {
-        return mktcap;
-    }
-
-    public void setMktcap(double mktcap) {
-        this.mktcap = mktcap;
-    }
 
     public double getPerc() {
         return perc;
@@ -82,13 +73,6 @@ public class Coin {
         this.price = price;
     }
 
-    public boolean isShapeshift() {
-        return shapeshift;
-    }
-
-    public void setShapeshift(boolean shapeshift) {
-        this.shapeshift = shapeshift;
-    }
 
     public String getShortName() {
         return shortName;
@@ -98,43 +82,4 @@ public class Coin {
         this.shortName = shortName;
     }
 
-    public double getSupply() {
-        return supply;
-    }
-
-    public void setSupply(double supply) {
-        this.supply = supply;
-    }
-
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    public double getUsdVolume() {
-        return usdVolume;
-    }
-
-    public void setUsdVolume(double usdVolume) {
-        this.usdVolume = usdVolume;
-    }
-
-    public double getVwapData() {
-        return vwapData;
-    }
-
-    public void setVwapData(double vwapData) {
-        this.vwapData = vwapData;
-    }
-
-    public double getVwapDataBTC() {
-        return vwapDataBTC;
-    }
-
-    public void setVwapDataBTC(double vwapDataBTC) {
-        this.vwapDataBTC = vwapDataBTC;
-    }
 }
