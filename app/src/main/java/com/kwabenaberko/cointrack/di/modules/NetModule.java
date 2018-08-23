@@ -1,7 +1,7 @@
 package com.kwabenaberko.cointrack.di.modules;
 
-import com.kwabenaberko.cointrack.ApiService;
-import com.kwabenaberko.cointrack.CoinTrackNewtorkSource;
+import com.kwabenaberko.cointrack.repository.network.ApiService;
+import com.kwabenaberko.cointrack.repository.network.CoinTrackNewtorkSource;
 
 import java.util.concurrent.TimeUnit;
 

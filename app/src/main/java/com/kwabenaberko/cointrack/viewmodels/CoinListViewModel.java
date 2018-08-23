@@ -1,7 +1,10 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.viewmodels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+
+import com.kwabenaberko.cointrack.models.Coin;
+import com.kwabenaberko.cointrack.repository.CoinTrackRepository;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class CoinListViewModel extends ViewModel {
     public CoinListViewModel(CoinTrackRepository coinTrackRepository){
         mCoinTrackRepository = coinTrackRepository;
         coinListLiveData = mCoinTrackRepository.getCoinData();
+        refresh();
     }
 
     public LiveData<List<Coin>> getCoinListLiveData(){

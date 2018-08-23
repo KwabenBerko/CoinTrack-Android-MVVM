@@ -1,4 +1,4 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.views;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.kwabenaberko.cointrack.R;
+import com.kwabenaberko.cointrack.models.Coin;
 
 import java.util.List;
 

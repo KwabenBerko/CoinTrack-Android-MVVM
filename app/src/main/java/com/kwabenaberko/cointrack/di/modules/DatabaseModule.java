@@ -3,8 +3,8 @@ package com.kwabenaberko.cointrack.di.modules;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.kwabenaberko.cointrack.CoinTrackDao;
-import com.kwabenaberko.cointrack.CoinTrackDatabase;
+import com.kwabenaberko.cointrack.repository.database.CoinTrackDao;
+import com.kwabenaberko.cointrack.repository.database.CoinTrackDatabase;
 import com.kwabenaberko.cointrack.R;
 
 import javax.inject.Singleton;

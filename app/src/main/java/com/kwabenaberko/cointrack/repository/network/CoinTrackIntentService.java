@@ -1,9 +1,11 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.repository.network;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.kwabenaberko.cointrack.App;
 
 import javax.inject.Inject;
 

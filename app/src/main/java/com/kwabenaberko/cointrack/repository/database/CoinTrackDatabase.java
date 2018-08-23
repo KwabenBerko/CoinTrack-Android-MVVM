@@ -1,7 +1,9 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.repository.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
+
+import com.kwabenaberko.cointrack.models.Coin;
 
 /**
  * Created by Kwabena Berko on 8/22/2018.

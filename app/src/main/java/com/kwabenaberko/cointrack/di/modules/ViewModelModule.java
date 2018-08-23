@@ -2,7 +2,7 @@ package com.kwabenaberko.cointrack.di.modules;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.kwabenaberko.cointrack.CoinListViewModel;
+import com.kwabenaberko.cointrack.viewmodels.CoinListViewModel;
 
 import dagger.Binds;
 import dagger.Module;

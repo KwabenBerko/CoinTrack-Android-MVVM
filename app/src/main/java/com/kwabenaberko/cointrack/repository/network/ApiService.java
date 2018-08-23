@@ -1,4 +1,6 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.repository.network;
+
+import com.kwabenaberko.cointrack.models.Coin;
 
 import java.util.List;
 

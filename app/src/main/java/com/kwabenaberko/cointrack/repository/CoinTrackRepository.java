@@ -1,7 +1,11 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.util.Log;
+
+import com.kwabenaberko.cointrack.models.Coin;
+import com.kwabenaberko.cointrack.repository.database.CoinTrackDao;
+import com.kwabenaberko.cointrack.repository.network.ApiService;
 
 import java.util.List;
 
@@ -22,8 +26,6 @@ public class CoinTrackRepository {
     public CoinTrackRepository(CoinTrackDao coinTrackDao, ApiService apiService){
         mApiService = apiService;
         mCoinTrackDao = coinTrackDao;
-
-        refreshCoinListData();
 
     }
 

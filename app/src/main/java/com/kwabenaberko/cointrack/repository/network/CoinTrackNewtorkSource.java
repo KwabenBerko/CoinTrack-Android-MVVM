@@ -1,7 +1,9 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.repository.network;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
+
+import com.kwabenaberko.cointrack.models.Coin;
 
 import java.net.URISyntaxException;
 import java.util.List;

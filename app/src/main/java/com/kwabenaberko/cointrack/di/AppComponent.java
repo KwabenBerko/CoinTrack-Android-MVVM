@@ -1,7 +1,7 @@
 package com.kwabenaberko.cointrack.di;
 
-import com.kwabenaberko.cointrack.CoinTrackIntentService;
-import com.kwabenaberko.cointrack.CoinListActivity;
+import com.kwabenaberko.cointrack.repository.network.CoinTrackIntentService;
+import com.kwabenaberko.cointrack.views.CoinListActivity;
 import com.kwabenaberko.cointrack.di.modules.AppModule;
 import com.kwabenaberko.cointrack.di.modules.DatabaseModule;
 import com.kwabenaberko.cointrack.di.modules.NetModule;

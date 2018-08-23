@@ -1,4 +1,4 @@
-package com.kwabenaberko.cointrack;
+package com.kwabenaberko.cointrack.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
