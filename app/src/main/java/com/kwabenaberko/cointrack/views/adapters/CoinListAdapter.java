@@ -1,4 +1,4 @@
-package com.kwabenaberko.cointrack.views;
+package com.kwabenaberko.cointrack.views.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -41,9 +41,22 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         final Coin coin = mCoins.get(position);
-        holder.coinName.setText(coin.getLongName() + " " + coin.getShortName());
-        holder.coin24HourChange.setText(String.valueOf(coin.getPerc()) + "%");
-        holder.coinPrice.setText(String.valueOf(coin.getPrice()));
+        holder.coinLongName.setText(coin.getLongName());
+        holder.coinShortName.setText(coin.getShortName());
+        holder.coin24HourChange.setText(
+                String.format(
+                        mContext.getString(R.string.cap24hrChange),
+                        String.format(
+                                mContext.getString(R.string.percentage),
+                                String.valueOf(coin.getPerc()))
+                        )
+        );
+        holder.coinPrice.setText(
+                String.format(
+                        mContext.getString(R.string.priceInDollars),
+                        String.valueOf(coin.getPrice())
+                )
+        );
         Glide.with(mContext)
                 .load("https://raw.githubusercontent.com/KwabenBerko/cryptocurrency-icons/master/128/color/" +
                 coin.getShortName().toLowerCase() + ".png")
@@ -60,7 +73,8 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.coinName) TextView coinName;
+        @BindView(R.id.coinLongName) TextView coinLongName;
+        @BindView(R.id.coinShortName) TextView coinShortName;
         @BindView(R.id.coin24HourChange) TextView coin24HourChange;
         @BindView(R.id.coinImage) ImageView coinImage;
         @BindView(R.id.coinPrice) TextView coinPrice;

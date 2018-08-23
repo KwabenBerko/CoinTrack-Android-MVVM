@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CoinTrack</string>
     <string name="action_settings">Settings</string>
+    <string name="percentage">%s%%</string>
+    <string name="priceInDollars"> $%s </string>
+    <string name="cap24hrChange">24h: %s </string>
 </resources>

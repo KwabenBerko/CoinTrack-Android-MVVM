@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,6 +17,7 @@ import com.kwabenaberko.cointrack.models.Coin;
 import com.kwabenaberko.cointrack.R;
 import com.kwabenaberko.cointrack.viewmodels.ViewModelFactory;
 import com.kwabenaberko.cointrack.viewmodels.CoinListViewModel;
+import com.kwabenaberko.cointrack.views.adapters.CoinListAdapter;
 
 import java.util.List;
 
@@ -50,6 +52,9 @@ public class CoinListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)
+        );
         viewModel.getCoinListLiveData().observe(this, new Observer<List<Coin>>() {
             @Override
             public void onChanged(@Nullable List<Coin> coins) {
