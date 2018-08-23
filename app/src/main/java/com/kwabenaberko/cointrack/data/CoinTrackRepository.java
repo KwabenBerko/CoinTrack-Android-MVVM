@@ -56,12 +56,14 @@ public class CoinTrackRepository {
                         public void run() {
                             Log.v(COIN_REPO_TAG, "Received Updated Coin Data Via Websockets.");
                             Coin existingCoin = mCoinTrackDao.findByShortName(coin.getShortName());
-                            existingCoin.setCap24hrChange(coin.getCap24hrChange());
-                            existingCoin.setLongName(coin.getLongName());
-                            existingCoin.setShortName(coin.getShortName());
-                            existingCoin.setPerc(coin.getPerc());
-                            existingCoin.setPrice(coin.getPrice());
-                            mCoinTrackDao.updateCoin(existingCoin);
+                            if(existingCoin != null){
+                                existingCoin.setCap24hrChange(coin.getCap24hrChange());
+                                existingCoin.setLongName(coin.getLongName());
+                                existingCoin.setShortName(coin.getShortName());
+                                existingCoin.setPerc(coin.getPerc());
+                                existingCoin.setPrice(coin.getPrice());
+                                mCoinTrackDao.updateCoin(existingCoin);
+                            }
                         }
                     }).start();
                 }
