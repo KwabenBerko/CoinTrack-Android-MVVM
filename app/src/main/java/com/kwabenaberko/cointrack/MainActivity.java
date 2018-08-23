@@ -1,15 +1,36 @@
 package com.kwabenaberko.cointrack;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    ViewModelFactory mFactory;
+    private MainActivityViewModel viewModel;
+    @BindView(R.id.coinsRecyclerView)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    private CoinListAdapter mCoinListAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +38,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ((App) getApplication()).getAppComponent().inject(this);
+        viewModel = ViewModelProviders.of(this, mFactory).get(MainActivityViewModel.class);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+        mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
+        viewModel.getCoinListLiveData().observe(this, new Observer<List<Coin>>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onChanged(@Nullable List<Coin> coins) {
+                if(coins != null){
+                    if(mCoinListAdapter != null){
+                        mCoinListAdapter.refill(coins);
+                        mCoinListAdapter.notifyDataSetChanged();
+                    }
+                    else{
+                        mCoinListAdapter = new CoinListAdapter(getApplicationContext(), coins);
+                        mRecyclerView.setAdapter(mCoinListAdapter);
+                    }
+                }
+
+                if(mSwipeRefreshLayout.isRefreshing()){
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
+
     }
+
+    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            if(!mSwipeRefreshLayout.isRefreshing()){
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+            viewModel.refresh();
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,5 +98,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
