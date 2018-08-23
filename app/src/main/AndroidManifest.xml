@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".repository.network.CoinTrackIntentService"/>
+        <service android:name=".data.network.CoinTrackIntentService"/>
     </application>
 
 </manifest>

@@ -68,13 +68,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/coin24HourChange"
-                    android:textSize="17sp"
-                    android:textColor="#676767"
-                    android:gravity="end"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"
+                    android:gravity="end">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:textColor="#676767"
+                        android:text="@string/cap24hrChangeTitle"/>
+
+                    <TextView
+                        android:id="@+id/coin24HourChange"
+                        android:textSize="17sp"
+                        android:textColor="#676767"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
 
 
             </LinearLayout>

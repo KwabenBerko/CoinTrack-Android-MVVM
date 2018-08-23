@@ -1,4 +1,4 @@
-package com.kwabenaberko.cointrack.repository.database;
+package com.kwabenaberko.cointrack.data.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

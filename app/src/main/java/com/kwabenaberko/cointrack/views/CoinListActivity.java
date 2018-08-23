@@ -69,9 +69,6 @@ public class CoinListActivity extends AppCompatActivity {
                     }
                 }
 
-                if(mSwipeRefreshLayout.isRefreshing()){
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
             }
         });
 

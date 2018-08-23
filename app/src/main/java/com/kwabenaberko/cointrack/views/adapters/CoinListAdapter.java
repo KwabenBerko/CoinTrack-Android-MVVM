@@ -1,6 +1,7 @@
 package com.kwabenaberko.cointrack.views.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kwabenaberko.cointrack.R;
 import com.kwabenaberko.cointrack.models.Coin;
+import com.kwabenaberko.cointrack.utils.Helpers;
 
 import java.util.List;
 
@@ -45,18 +47,17 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
         holder.coinShortName.setText(coin.getShortName());
         holder.coin24HourChange.setText(
                 String.format(
-                        mContext.getString(R.string.cap24hrChange),
-                        String.format(
-                                mContext.getString(R.string.percentage),
-                                String.valueOf(coin.getPerc()))
-                        )
+                        mContext.getString(R.string.percentage),
+                        String.valueOf(coin.getPerc()))
         );
+        holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.depreciate));
         holder.coinPrice.setText(
                 String.format(
                         mContext.getString(R.string.priceInDollars),
-                        String.valueOf(coin.getPrice())
+                        Helpers.round(coin.getPrice())
                 )
         );
+        holder.coinPrice.setTextColor(ContextCompat.getColor(mContext, R.color.appreciate));
         Glide.with(mContext)
                 .load("https://raw.githubusercontent.com/KwabenBerko/cryptocurrency-icons/master/128/color/" +
                 coin.getShortName().toLowerCase() + ".png")

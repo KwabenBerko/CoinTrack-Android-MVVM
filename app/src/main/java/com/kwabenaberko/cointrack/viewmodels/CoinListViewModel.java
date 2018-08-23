@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.kwabenaberko.cointrack.models.Coin;
-import com.kwabenaberko.cointrack.repository.CoinTrackRepository;
+import com.kwabenaberko.cointrack.data.CoinTrackRepository;
 
 import java.util.List;
 

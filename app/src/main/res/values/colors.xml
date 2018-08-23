@@ -3,4 +3,6 @@
     <color name="colorPrimary">#214497</color>
     <color name="colorPrimaryDark">#214497</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="depreciate">#DC143C</color>
+    <color name="appreciate">#1A801A</color>
 </resources>

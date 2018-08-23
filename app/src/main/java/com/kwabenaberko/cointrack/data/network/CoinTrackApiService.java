@@ -1,4 +1,4 @@
-package com.kwabenaberko.cointrack.repository.network;
+package com.kwabenaberko.cointrack.data.network;
 
 import com.kwabenaberko.cointrack.models.Coin;
 
@@ -11,7 +11,7 @@ import retrofit2.http.GET;
  * Created by Kwabena Berko on 8/22/2018.
  */
 
-public interface ApiService {
+public interface CoinTrackApiService {
     @GET("/front")
     Call<List<Coin>> getFrontPageCoinData();
 }

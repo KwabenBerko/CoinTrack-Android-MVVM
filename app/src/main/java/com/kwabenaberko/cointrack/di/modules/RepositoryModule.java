@@ -1,8 +1,10 @@
 package com.kwabenaberko.cointrack.di.modules;
 
-import com.kwabenaberko.cointrack.repository.network.ApiService;
-import com.kwabenaberko.cointrack.repository.database.CoinTrackDao;
-import com.kwabenaberko.cointrack.repository.CoinTrackRepository;
+import android.app.Application;
+
+import com.kwabenaberko.cointrack.data.network.CoinTrackApiService;
+import com.kwabenaberko.cointrack.data.database.CoinTrackDao;
+import com.kwabenaberko.cointrack.data.CoinTrackRepository;
 
 import javax.inject.Singleton;
 
@@ -13,11 +15,11 @@ import dagger.Provides;
  * Created by Kwabena Berko on 8/22/2018.
  */
 
-@Module(includes = {NetModule.class, DatabaseModule.class})
+@Module(includes = {AppModule.class, NetModule.class, DatabaseModule.class})
 public class RepositoryModule {
     @Provides
     @Singleton
-    CoinTrackRepository provideCoinTrackRepository(CoinTrackDao coinTrackDao, ApiService apiService){
-        return new CoinTrackRepository(coinTrackDao, apiService);
+    CoinTrackRepository provideCoinTrackRepository(Application application, CoinTrackDao coinTrackDao, CoinTrackApiService coinTrackApiService){
+        return new CoinTrackRepository(application, coinTrackDao, coinTrackApiService);
     }
 }
