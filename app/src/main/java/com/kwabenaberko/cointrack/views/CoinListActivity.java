@@ -13,10 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.kwabenaberko.cointrack.App;
-import com.kwabenaberko.cointrack.models.Coin;
 import com.kwabenaberko.cointrack.R;
-import com.kwabenaberko.cointrack.viewmodels.ViewModelFactory;
+import com.kwabenaberko.cointrack.models.Coin;
 import com.kwabenaberko.cointrack.viewmodels.CoinListViewModel;
+import com.kwabenaberko.cointrack.viewmodels.ViewModelFactory;
 import com.kwabenaberko.cointrack.views.adapters.CoinListAdapter;
 
 import java.util.List;
@@ -28,6 +28,8 @@ import butterknife.ButterKnife;
 
 public class CoinListActivity extends AppCompatActivity {
 
+    public static final String MAIN_VIEW_TAG = CoinListActivity.class.getSimpleName();
+
     @Inject
     ViewModelFactory mFactory;
     private CoinListViewModel viewModel;
@@ -36,6 +38,7 @@ public class CoinListActivity extends AppCompatActivity {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private CoinListAdapter mCoinListAdapter;
+    private List<Coin> mCoins;
 
 
     @Override
@@ -60,14 +63,15 @@ public class CoinListActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<Coin> coins) {
                 if(coins != null){
                     if(mCoinListAdapter != null){
-                        mCoinListAdapter.refill(coins);
-                        mCoinListAdapter.notifyDataSetChanged();
+                        mCoinListAdapter.updateCoinList(coins);
                     }
                     else{
                         mCoinListAdapter = new CoinListAdapter(getApplicationContext(), coins);
                         mRecyclerView.setAdapter(mCoinListAdapter);
                     }
                 }
+
+                mCoins = coins;
 
             }
         });

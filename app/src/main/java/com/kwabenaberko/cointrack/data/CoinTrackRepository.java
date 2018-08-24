@@ -39,7 +39,7 @@ public class CoinTrackRepository {
                         @Override
                         public void run() {
                             mCoinTrackDao.deleteAll();
-                            mCoinTrackDao.insertAll(coins.subList(0, 20));
+                            mCoinTrackDao.insertAll(coins.subList(0, 10));
                             Log.d(COIN_REPO_TAG, "Data Changed.");
                         }
                     }).start();

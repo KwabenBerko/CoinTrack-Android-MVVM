@@ -2,17 +2,20 @@ package com.kwabenaberko.cointrack.views.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kwabenaberko.cointrack.R;
 import com.kwabenaberko.cointrack.models.Coin;
 import com.kwabenaberko.cointrack.utils.Helpers;
+import com.kwabenaberko.cointrack.views.CoinListDiffCallback;
 
 import java.util.List;
 
@@ -27,9 +30,12 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
     private Context mContext;
     private List<Coin> mCoins;
 
+    private boolean isFirstLoad;
+
     public CoinListAdapter(Context context, List<Coin> coins){
         mContext = context;
         mCoins = coins;
+        isFirstLoad = true;
     }
 
 
@@ -41,7 +47,7 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
+    public void onBindViewHolder(final CustomViewHolder holder, int position) {
         final Coin coin = mCoins.get(position);
         holder.coinLongName.setText(coin.getLongName());
         holder.coinShortName.setText(coin.getShortName());
@@ -60,12 +66,25 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
             holder.coinArrow.setImageResource(R.drawable.arrow_up);
             holder.coinArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.success));
         }
+
         holder.coinPrice.setText(
                 String.format(
                         mContext.getString(R.string.priceInDollars),
                         Helpers.round(coin.getPrice())
                 )
         );
+
+        if(!isFirstLoad){
+            if(coin.getPrice() < calculateAmount24HoursAgo(coin.getPrice(), coin.getPerc())){
+                Helpers.playListItemTransitionAnimation(mContext, R.color.transition_danger, holder.coinListItemLayout);
+                Helpers.playTextTransitionAnimation(mContext, R.color.danger, holder.coinPrice);
+            }
+            else if(coin.getPrice() > calculateAmount24HoursAgo(coin.getPrice(), coin.getPerc())){
+                Helpers.playListItemTransitionAnimation(mContext, R.color.transition_success, holder.coinListItemLayout);
+                Helpers.playTextTransitionAnimation(mContext, R.color.success, holder.coinPrice);
+            }
+        }
+
         Glide.with(mContext)
                 .load("https://raw.githubusercontent.com/KwabenBerko/cryptocurrency-icons/master/128/color/" +
                 coin.getShortName().toLowerCase() + ".png")
@@ -77,11 +96,17 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
         return mCoins.size();
     }
 
-    public void refill(List<Coin> coins){
-        mCoins = coins;
+    public void updateCoinList(List<Coin> coins){
+        CoinListDiffCallback diffCallback = new CoinListDiffCallback(mCoins, coins);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        mCoins.clear();
+        mCoins.addAll(coins);
+        diffResult.dispatchUpdatesTo(this);
+        isFirstLoad = false;
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.coinListItemLayout) LinearLayout coinListItemLayout;
         @BindView(R.id.coinLongName) TextView coinLongName;
         @BindView(R.id.coinShortName) TextView coinShortName;
         @BindView(R.id.coin24HourChange) TextView coin24HourChange;
@@ -93,5 +118,9 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    private double calculateAmount24HoursAgo(double currentAmount, double percentage){
+        return ((percentage / 100) * currentAmount) + currentAmount;
     }
 }

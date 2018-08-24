@@ -3,6 +3,7 @@ package com.kwabenaberko.cointrack.models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 @Entity(tableName = "coins")
-public class Coin {
+public class Coin implements Comparable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -82,4 +83,13 @@ public class Coin {
         this.shortName = shortName;
     }
 
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Coin compare = (Coin) o;
+
+        if (compare.id == this.id && compare.shortName.equals(this.shortName) && compare.price == (this.price) && compare.perc == this.perc) {
+            return 0;
+        }
+        return 1;
+    }
 }
