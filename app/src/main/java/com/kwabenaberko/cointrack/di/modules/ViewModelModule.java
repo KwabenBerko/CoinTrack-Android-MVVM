@@ -18,7 +18,7 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CoinListViewModel.class)
-    abstract ViewModel mainActivityViewModel(CoinListViewModel coinListViewModel);
+    abstract ViewModel coinListViewModel(CoinListViewModel coinListViewModel);
 
 
 }
