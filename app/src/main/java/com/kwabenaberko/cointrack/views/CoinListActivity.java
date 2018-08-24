@@ -38,7 +38,6 @@ public class CoinListActivity extends AppCompatActivity {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
     private CoinListAdapter mCoinListAdapter;
-    private List<Coin> mCoins;
 
 
     @Override
@@ -71,7 +70,6 @@ public class CoinListActivity extends AppCompatActivity {
                     }
                 }
 
-                mCoins = coins;
 
             }
         });
