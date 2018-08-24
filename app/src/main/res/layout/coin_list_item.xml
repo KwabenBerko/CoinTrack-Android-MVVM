@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
+    android:layout_margin="0dp"
+    card_view:cardCornerRadius="1dp"
     card_view:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -75,12 +76,10 @@
                     android:layout_height="match_parent"
                     android:gravity="end">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/coinArrow"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:textColor="#676767"
-                        android:text="@string/cap24hrChangeTitle"/>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:id="@+id/coin24HourChange"

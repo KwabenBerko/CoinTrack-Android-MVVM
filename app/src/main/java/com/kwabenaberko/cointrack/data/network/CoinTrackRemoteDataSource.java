@@ -86,7 +86,8 @@ public class CoinTrackRemoteDataSource {
                 @Override
                 public void call(Object... args) {
                     try {
-                        Log.d(REMOTE_DATA_SOURCE_TAG, "Trade Data Receivedgi.");
+                        Log.d(REMOTE_DATA_SOURCE_TAG, "Trade Data Received.");
+                        Log.v(REMOTE_DATA_SOURCE_TAG, "Socket Thread: " + Thread.currentThread().getId());
                         Log.d(REMOTE_DATA_SOURCE_TAG, String.valueOf(args[0]));
                         JSONObject data = (JSONObject) args[0];
                         String coinData = data.getJSONObject("message").getJSONObject("msg").toString();

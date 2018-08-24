@@ -50,14 +50,22 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
                         mContext.getString(R.string.percentage),
                         String.valueOf(coin.getPerc()))
         );
-        holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.danger));
+        if(coin.getPerc() < 0){
+            holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.danger));
+            holder.coinArrow.setImageResource(R.drawable.arrow_down);
+            holder.coinArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.danger));
+        }
+        else{
+            holder.coin24HourChange.setTextColor(ContextCompat.getColor(mContext, R.color.success));
+            holder.coinArrow.setImageResource(R.drawable.arrow_up);
+            holder.coinArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.success));
+        }
         holder.coinPrice.setText(
                 String.format(
                         mContext.getString(R.string.priceInDollars),
                         Helpers.round(coin.getPrice())
                 )
         );
-        holder.coinPrice.setTextColor(ContextCompat.getColor(mContext, R.color.success));
         Glide.with(mContext)
                 .load("https://raw.githubusercontent.com/KwabenBerko/cryptocurrency-icons/master/128/color/" +
                 coin.getShortName().toLowerCase() + ".png")
@@ -77,6 +85,7 @@ public class CoinListAdapter extends RecyclerView.Adapter<CoinListAdapter.Custom
         @BindView(R.id.coinLongName) TextView coinLongName;
         @BindView(R.id.coinShortName) TextView coinShortName;
         @BindView(R.id.coin24HourChange) TextView coin24HourChange;
+        @BindView(R.id.coinArrow) ImageView coinArrow;
         @BindView(R.id.coinImage) ImageView coinImage;
         @BindView(R.id.coinPrice) TextView coinPrice;
 

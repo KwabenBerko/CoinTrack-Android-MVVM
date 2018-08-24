@@ -55,6 +55,7 @@ public class CoinTrackRepository {
                         @Override
                         public void run() {
                             Log.v(COIN_REPO_TAG, "Received Updated Coin Data Via Websockets.");
+                            Log.v(COIN_REPO_TAG, "Repo Thread: " + Thread.currentThread().getId());
                             Coin existingCoin = mCoinTrackDao.findByShortName(coin.getShortName());
                             if(existingCoin != null){
                                 existingCoin.setCap24hrChange(coin.getCap24hrChange());
